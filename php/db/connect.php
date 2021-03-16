@@ -2,12 +2,13 @@
 
 <?php
 function dbConnect()
+
 {
     # code...
 
     $servername = "localhost";
-    $username = "username";
-    $password = "password";
+    $username = "AdminDbs";
+    $password = "GhhhYuur_34";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password);
