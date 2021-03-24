@@ -11,7 +11,9 @@
 </head>
 
 <body>
+
   <p>hej</p>
+  <h1>My Database</h1>
   <?php
   //my included files
   include 'php\db\connect.php';
@@ -19,6 +21,29 @@
   $nameErr = $emailErr = $genderErr = $websiteErr = "";
   $name = $email = $gender = $comment = $website = "";
   $mydb = dbConnect();
+  echo '<br>';
+  //Läs befintlig data i tabellen
+
+
+
+  $sqlread = "SELECT id, name FROM surveys";
+  $result = $mydb->query($sqlread);
+
+  if ($result->num_rows > 0) {
+    // output data of each row
+    while ($row = $result->fetch_assoc()) {
+      echo "id: " . $row["id"] . " - Name: " . $row["name"] . "<br>";
+    }
+  } else {
+    echo "0 results";
+  }
+
+
+
+
+
+
+
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["name"])) {
