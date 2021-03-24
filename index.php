@@ -19,6 +19,7 @@
   $nameErr = $emailErr = $genderErr = $websiteErr = "";
   $name = $email = $gender = $comment = $website = "";
   $mydbcon = dbConnect();
+  //dbDisconnect($mydbcon);
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["name"])) {
@@ -30,6 +31,10 @@
         $nameErr = "Only letters and white space allowed";
       }
     }
+    // stoppa in vädrer name i databasen 
+    // $name
+    // $mydbcon set value  i räätt tabell o kolumn 
+
 
     if (empty($_POST["email"])) {
       $emailErr = "Email is required";
@@ -71,8 +76,7 @@
     $data = htmlspecialchars($data);
     return $data;
   }
-  //disconnect db
-  $mydbcon->close();
+
   ?>
 
   <h2>PHP Form Validation Example</h2>

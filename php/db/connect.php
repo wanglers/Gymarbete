@@ -1,5 +1,3 @@
-
-
 <?php
 function dbConnect()
 
@@ -20,9 +18,19 @@ function dbConnect()
     echo "Connected successfully";
     return $conn;
 }
-?> 
+?>
+<?php
+function dbDisconnect($conn)
+{
 
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //disconnect db
+    $conn->close();
 
-
-
-
+    echo "disconnected ok";
+    return;
+}
+?>
