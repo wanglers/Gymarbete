@@ -7,9 +7,10 @@ function dbConnect()
     $servername = "localhost";
     $username = "AdminDbs";
     $password = "GhhhYuur_34";
+    $dbname = "gymarbetedbs";
 
     // Create connection
-    $conn = new mysqli($servername, $username, $password);
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
     // Check connection
     if ($conn->connect_error) {

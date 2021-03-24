@@ -11,15 +11,14 @@
 </head>
 
 <body>
-  <p>herj</p>
+  <p>hej</p>
   <?php
   //my included files
   include 'php\db\connect.php';
   // define variables and set to empty values
   $nameErr = $emailErr = $genderErr = $websiteErr = "";
   $name = $email = $gender = $comment = $website = "";
-  $mydbcon = dbConnect();
-  //dbDisconnect($mydbcon);
+  $mydb = dbConnect();
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["name"])) {
@@ -31,9 +30,6 @@
         $nameErr = "Only letters and white space allowed";
       }
     }
-    // stoppa in vädrer name i databasen 
-    // $name
-    // $mydbcon set value  i räätt tabell o kolumn 
 
 
     if (empty($_POST["email"])) {
@@ -103,6 +99,30 @@
   </form>
 
   <?php
+
+  //  // stoppa in värdet name i databasen 
+  // $name
+  // $mydbcon set value  i rätt tabell o kolumn 
+
+  echo "<br>";
+  echo $name;
+  echo "<br>";
+  //
+  $sql = "INSERT INTO surveys (name)
+VALUES ('$name')";
+
+  if ($mydb->query($sql) === TRUE) {
+    echo "New record created successfully";
+  } else {
+    echo "Error: " . $sql . "<br>" . $mydb->error;
+  }
+
+
+  // Stäng dbs connect
+  dbDisconnect($mydb);
+
+  ////
+
   echo "<h2>Your Input:</h2>";
   echo $name;
   echo "<br>";
