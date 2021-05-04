@@ -36,10 +36,20 @@ SET
 Where
   id = 1;
 insert INTO
+  -- skapa fråga 1
   questions(question, s_id)
 VALUES
   ('Gillar du sushi?', 12);
 insert INTO
   results(q_id, result)
 VALUES
-  (1, 2)
+  (1, 1);
+insert INTO
+  -- skapa fråga 2
+  questions(question, s_id)
+VALUES
+  ('Gillar du pizza?', 12);
+insert INTO
+  results(q_id, result)
+VALUES
+  (2, 1);
