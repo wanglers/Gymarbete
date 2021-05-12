@@ -42,7 +42,8 @@
     echo "0 results";
   }
 
-
+  //Lägg in formulär för varje enkät som sparas till en ny fråga för varje enkät
+  //envänd en av inputfälten
 
 
 

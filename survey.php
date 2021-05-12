@@ -11,42 +11,47 @@
 </head>
 
 <body>
-
-  <h1>exEnkät 1</h1>
+  <!-- <h1>exEnkät 1</h1> -->
   <?php
   //my included files
   include 'php\db\connect.php';
+  include 'getSurvey.php';
+
+  // get survey id and data
+  $surveyId = $_GET["id"];
+  $survey = getSurvey($surveyId);
+
+  // display the survey
+  echo "<h1> $survey[name] </h1>";
+  include 'homeButton.php';
+  for ($i = 0; $i < count($survey["questions"]); $i++) {
+    echo "Question " . $i + 1 . ": " . $survey["questions"][$i];
+    echo "<br>";
+  }
   // define variables and set to empty values
   $answer1Err = $answer2Err = $questionErr = $genderErr = $websiteErr = "";
   $question = $gender = $comment = $website = "";
   $answer1 = -1;
   $answer2 = -1;
-  $surveyid = 12;
 
   $mydb = dbConnect();
+
   echo '<br>';
   //Läs befintlig data i tabellen
 
 
 
-  $sqlread = "SELECT id, name FROM surveys";
-  $result = $mydb->query($sqlread);
+  // $sqlread = "SELECT id, name FROM surveys";
+  // $result = $mydb->query($sqlread);
 
-  if ($result->num_rows > 0) {
-    // output data of each row
-    while ($row = $result->fetch_assoc()) {
-      echo "id: " . $row["id"] . " - Name: " . $row["name"] . "<br>";
-    }
-  } else {
-    echo "0 results";
-  }
-
-
-
-
-
-
-
+  // if ($result->num_rows > 0) {
+  //   // output data of each row
+  //   while ($row = $result->fetch_assoc()) {
+  //     echo "id: " . $row["id"] . " - Name: " . $row["name"] . "<br>";
+  //   }
+  // } else {
+  //   echo "0 results";
+  // }
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["answer1"])) {
@@ -54,7 +59,7 @@
     } else {
       $answer1 = test_input($_POST["answer1"]);
       // check if name only contains letters and whitespace
-      if (!preg_match("/^[0-9]$/", $answer1)) {
+      if (preg_match("/[0-9]+/", $answer1)) {
         $answer1Err = "Only letters and white space allowed";
       }
     }
@@ -63,7 +68,7 @@
     } else {
       $answer2 = test_input($_POST["answer2"]);
       // check if name only contains letters and whitespace
-      if (!preg_match("/^[0-9]$/", $answer2)) {
+      if (preg_match("/[0-9]+/", $answer2)) {
         $answer2Err = "Only letters and white space allowed";
       }
     }
@@ -110,47 +115,47 @@
     }
   }
 
-  function get_question($mydb, $surveyid)
-  {
-    $sqlread1 = "SELECT id FROM questions WHERE s_id=$surveyid";
-    $fraga1 = $mydb->query($sqlread1);
-    if ($fraga1->num_rows > 0) {
-      echo "steg 1 ", "<br>";
-      while ($row = $fraga1->fetch_assoc()) {
+  // function get_question($mydb, $surveyid)
+  // {
+  //   $sqlread1 = "SELECT id FROM questions WHERE s_id=$surveyid";
+  //   $fraga1 = $mydb->query($sqlread1);
+  //   if ($fraga1->num_rows > 0) {
+  //     echo "steg 1 ", "<br>";
+  //     while ($row = $fraga1->fetch_assoc()) {
 
 
-        $questionid = $row["id"];
-        $sqlread2 = "SELECT question FROM questions WHERE id=$questionid";
-        echo "steg 2: " . "<br>" . " questionid: " . $questionid . " " .  " survey:" . $surveyid .  "<br>";
+  //       $questionid = $row["id"];
+  //       $sqlread2 = "SELECT question FROM questions WHERE id=$questionid";
+  //       echo "steg 2: " . "<br>" . " questionid: " . $questionid . " " .  " survey:" . $surveyid .  "<br>";
 
-        // $fraga = $mydb->query($sqlread);
-        $fraga2 = $mydb->query($sqlread2);
+  //       // $fraga = $mydb->query($sqlread);
+  //       $fraga2 = $mydb->query($sqlread2);
 
-        if ($fraga2->num_rows > 0) {
-          // output data of each row
-          while ($row = $fraga2->fetch_assoc()) {
-            echo "Question: " . $row["question"] . "<br>";
-          }
-        } else {
-          echo "0 results";
-        }
-      }
-    } else {
-      echo "0 results";
-    }
+  //       if ($fraga2->num_rows > 0) {
+  //         // output data of each row
+  //         while ($row = $fraga2->fetch_assoc()) {
+  //           echo "Question: " . $row["question"] . "<br>";
+  //         }
+  //       } else {
+  //         echo "0 results";
+  //       }
+  //     }
+  //   } else {
+  //     echo "0 results";
+  //   }
 
 
-    return;
-  }
-  get_question($mydb, $surveyid);
+  //   return;
+  // }
+  // get_question($mydb, $surveyid);
 
 
   ?>
 
 
   <p><span class="error"></span></p>
-  <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    Answer1: <input type="text" name="answer1" value="<?php echo $answer1; ?>">
+  <form method="post" action="<?php echo $_SERVER["REQUEST_URI"] ?>">
+    Answer 1: <input type="text" name="answer1" value="<?php echo $answer1; ?>">
     <span class="error">* <?php echo $answer1Err; ?></span>
     <br><br>
 
@@ -158,7 +163,7 @@
 
 
 
-    Answer2: <input type="text" name="answer2" value="<?php echo $answer2; ?>">
+    Answer 2: <input type="text" name="answer2" value="<?php echo $answer2; ?>">
     <span class="error">* <?php echo $answer2Err; ?></span>
     <br><br>
 

@@ -16,10 +16,12 @@
   <p>Helge Wangler: Gymnasiearbete</p>
   <br>
   <ul>
-    <li><a href="http://localhost/survey.php">Svara på enkäter</a></li>
-    <li><a href="http://localhost/surveyEdit.php">Skapa enkäter</a></li>
+    <li><a href="http://localhost/surveyEdit.php">Create a new survey</a></li>
   </ul>
-
+  <?php
+  include "getSurveys.php";
+  include "getSurvey.php";
+  ?>
 
 
 </body>
